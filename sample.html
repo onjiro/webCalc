@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>webCalc sample</title>
+  <meta charset="utf-8">
+  <script src="js/jquery-1.7.1.min.js"></script>
+  <script src="js/webCalc.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/webCalc.css" />
+  <style type="text/css">
+  <!--
+  body {
+    padding-top: 40px;
+    background-color: #332;
+    font-size: 1.4em;
+  }
+  article {
+    margin-left: auto;
+    margin-right: auto;
+    width: 480px;
+    height: 480px;
+  }
+  header, .content {
+    margin-top: 20px;
+    padding: 24px 12px;
+    border-radius: 20px;
+    background-color: #ddd;
+    box-shadow: 4px 4px 8px 4px #110;
+    line-height: 1.2em;
+  }
+  h1 {
+    line-height: 1.4em;
+    margin: 0;
+    padding: 0;
+  }
+  .input {
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+    padding: 0.4em 8px;
+    border-radius: 8px;
+    color: #aaa;
+    text-align: right;
+    background-color: #fff;
+    border: 2px #bbb solid;
+  }
+  .input:hover {
+    color: #666;
+    border-color: #666;
+  }
+  .input:active, .input.active {
+    color: #666;
+    border: 2px #add solid;
+    box-shadow: 0 0 4px 4px #aee;
+  }
+    -->
+  </style>
+</head>
+<body>
+  <article>
+    <header>
+      <h1>Web Calc Sample</h1>
+    </header>
+    <div class="content">
+      <div class="label">枠内をクリックしてください。</div>
+      <div class="input">0.</div>
+    </div>
+  </article>
+</body>
+<script>
+<!--
+  $(function(){
+    $(".input").bind("click", function(){
+      $(this).addClass("active");
+      
+      // TODO js 呼び出しコード
+      
+      // これを js 側で仕込む
+      $(this).trigger("entry", [100]); // sample
+    });
+
+    // これを js 側で仕込む
+    $(".input").bind("entry", function(event, value){
+      $(this).text(value + ".");
+    });
+  });
+  -->
+</script>
+</html>
