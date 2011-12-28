@@ -1,4 +1,50 @@
-div.calc {
+#calcBoard {
     min-width: 300px;
     max-width: 720px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 20px 20px;
+    text-align: center;
+    background-color: rgba(30, 30, 30, 0.8);
+}
+#calcBoard .display {
+    width: 94%;
+    padding: 0.4em 3%;
+    background-color: #fff;
+    margin: 1em 0;
+    border-radius: 6px;
+    text-align: right;
+}
+#calcBoard .calcLine {
+    clear: left;
+    color: #333;
+    text-shadow: 1px 1px 1px #fff;
+}
+#calcBoard .calcButton {
+    float: left;
+    width: 22%;
+    background-color: #ddd;
+    border-radius: 6px;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    margin-right: 4%;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    box-shadow: inset -1px -1px 1px 1px #333;
+    position: relative;
+}
+#calcBoard .calcButton:after {
+    position: absolute;
+    content: "a";
+    text-indent: -9999px;
+    display: block;
+    width: 100%;
+    margin-top: -1.4em;
+    height: 1.8em;
+    border-radius: 6px;
+    box-shadow: 0 2px 2px 1px #000;
+}
+#calcBoard .calcButton:last-child {
+    margin-right: 0;
 }

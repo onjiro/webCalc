@@ -72,9 +72,11 @@
       $(this).addClass("active");
       
       // TODO js 呼び出しコード
-      
-      // これを js 側で仕込む
-      $(this).trigger("entry", [100]); // sample
+      calc.start(function(event, value){
+        alert("決定されました。");
+      }, function(evnet, value){
+        alert("キャンセルされました。");
+      });
     });
 
     // これを js 側で仕込む
