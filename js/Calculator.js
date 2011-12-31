@@ -8,6 +8,9 @@ Calculator = function() {
     // 直前に評価が行われたかどうか
     var evaluatedJustBefore = true;
     
+    var evaluate = function(one, operator, another) {
+        return (operator === "") ? another: eval(one + operator + another).toString();
+    };
     return {
         // 現在の表示部を返す
         display: function() {
@@ -26,21 +29,12 @@ Calculator = function() {
                     incoming += value;
                 }
                 evaluatedJustBefore = false;
-            } else if (value.match(/[\+\-\*\/]/)) {
-                if (operator !== "") {
-                    accumulator = eval("return " + accumulator + operator + incoming);
-                } else {
-                    accumulator = incoming;
-                }
-                operator = value;
+            } else if (value.match(/[\+\-\*\/=]/)) {
+                accumulator = evaluate(accumulator, operator, incoming);
                 evaluatedJustBefore = true;
-            } else if (value.match(/=/)) {
-                if (operator !== "") {
-                    accumulator = eval(accumulator + operator + incoming).toString();
-                } else {
-                    accumulator = incoming;
+                if (value !== "=") {
+                    operator = value;
                 }
-                evaluatedJustBefore = true;
             }
             return this;
         },
