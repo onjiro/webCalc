@@ -8,9 +8,29 @@ Calculator = function() {
     // 直前に評価が行われたかどうか
     var evaluatedJustBefore = true;
     
-    var evaluate = function(one, operator, another) {
-        return (operator === "") ? another: eval(one + operator + another).toString();
-    };
+    var responses = [
+        {
+            matcher: /[0-9]/,
+            responseTo: function(value) {
+                if (evaluatedJustBefore) {
+                    incoming = value;
+                } else {
+                    incoming += value;
+                }
+                evaluatedJustBefore = false;
+            }
+        },
+        {
+            matcher: /[\+\-\*\/=]/, 
+            responseTo: function(value) {
+                accumulator = (operator === "") ? incoming: eval(accumulator + operator + incoming).toString();
+                evaluatedJustBefore = true;
+                if (value !== "=") {
+                    operator = value;
+                }
+            }
+        },
+    ];
     return {
         // 現在の表示部を返す
         display: function() {
@@ -22,18 +42,9 @@ Calculator = function() {
         },
         // 計算機への入力を行う
         entry: function(value) {
-            if (value.match(/[0-9]/)) {
-                if (evaluatedJustBefore) {
-                    incoming = value;
-                } else {
-                    incoming += value;
-                }
-                evaluatedJustBefore = false;
-            } else if (value.match(/[\+\-\*\/=]/)) {
-                accumulator = evaluate(accumulator, operator, incoming);
-                evaluatedJustBefore = true;
-                if (value !== "=") {
-                    operator = value;
+            for (i = 0; i < responses.length; i++) {
+                if (value.match(responses[i].matcher)) {
+                    responses[i].responseTo(value);
                 }
             }
             return this;
