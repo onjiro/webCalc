@@ -25,4 +25,13 @@ describe("Calculator", function() {
         calc = new Calculator();
         expect(calc.entry("1").entry("+").entry("2").entry("=").display()).toBe("3");
     });
+    
+    it("display '3' after entry '1', '+', '2' and '-'", function() {
+        calc = new Calculator();
+        expect(calc.entry("1").entry("+").entry("2").entry("-").display()).toBe("3");
+    });
+    it("display '-1' after entry '1', '+', '2', '-', '4' and '='", function() {
+        calc = new Calculator();
+        expect(calc.entry("1").entry("+").entry("2").entry("-").entry("4").entry("=").display()).toBe("-1");
+    });
 });
