@@ -1,37 +1,22 @@
 describe("Calculator", function() {
-    it("display '0' after init", function() {
+    it("初期化時には 0 が表示されていること", function() {
         calc = new Calculator();
         expect(calc.display()).toBe("0");
     });
-    it("display '1' after entry '1'", function() {
-        calc = new Calculator();
-        expect(calc.entry("1").display()).toBe("1");
-    });
-    it("display '10' after entry '1' and '0'", function() {
+    it("複数桁の数値が入力できること", function() {
         calc = new Calculator();
         expect(calc.entry("1").display()).toBe("1");
         expect(calc.entry("0").display()).toBe("10");
     });
-    
-    it("display '1' after entry '1' and '+'", function() {
+    it("単純な足し算ができること", function() {
         calc = new Calculator();
         expect(calc.entry("1").entry("+").display()).toBe("1");
+        expect(calc.entry("2").display()).toBe("2");
+        expect(calc.entry("=").display()).toBe("3");
     });
-    it("display '2' after entry '1', '+' and '2'", function() {
-        calc = new Calculator();
-        expect(calc.entry("1").entry("+").entry("2").display()).toBe("2");
-    });
-    it("display '3' after entry '1', '+', '2' and '='", function() {
-        calc = new Calculator();
-        expect(calc.entry("1").entry("+").entry("2").entry("=").display()).toBe("3");
-    });
-    
-    it("display '3' after entry '1', '+', '2' and '-'", function() {
+    it("'='の入力なしに連続して計算が可能なこと", function() {
         calc = new Calculator();
         expect(calc.entry("1").entry("+").entry("2").entry("-").display()).toBe("3");
-    });
-    it("display '-1' after entry '1', '+', '2', '-', '4' and '='", function() {
-        calc = new Calculator();
-        expect(calc.entry("1").entry("+").entry("2").entry("-").entry("4").entry("=").display()).toBe("-1");
+        expect(calc.entry("4").entry("=").display()).toBe("-1");
     });
 });
