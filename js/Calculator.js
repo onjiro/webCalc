@@ -17,34 +17,29 @@ Calculator = function() {
     var evaluatedJustBefore = true;
     
     var responses = [
-        {
-            matcher: /[0-9]/,
-            responseTo: function(value) {
-                if (currentMode === MODE_ACCUMULATING) {
-                    incoming += value;
-                } else {
-                    incoming = value;
-                }
-                currentMode = MODE_ACCUMULATING;
+        function(value){
+            if (!value.match(/[0-9]/)) { return; }
+            if (currentMode === MODE_ACCUMULATING) {
+                incoming += value;
+            } else {
+                incoming = value;
             }
+            currentMode = MODE_ACCUMULATING;
         },
-        {
-            matcher: /[\+\-\*\/]/, 
-            responseTo: function(value) {
-                if (currentMode === MODE_ACCUMULATING) {
-                    calculator.entry("=").entry(value);
-                } else {
-                    operator = value;
-                }
-                currentMode = MODE_OPERATOR_SETTED;
+        function(value){
+            if (!value.match(/[\+\-\*\/]/)) { return; }
+            if (currentMode === MODE_ACCUMULATING) {
+                calculator.entry("=").entry(value);
+            } else {
+                operator = value;
             }
+            currentMode = MODE_OPERATOR_SETTED;
         },
-        {
-            matcher: "=",
-            responseTo: function(value) {
-                accumulator = (operator === "") ? incoming: eval(accumulator + operator + incoming).toString();
-                currentMode = MODE_EVALUATED;
-            }
+        function(value){
+            if (!value.match("=")) { return; }
+            accumulator = (operator === "") ? 
+                incoming: eval(accumulator + operator + incoming).toString();
+            currentMode = MODE_EVALUATED;
         },
     ];
     var calculator = {
@@ -59,9 +54,7 @@ Calculator = function() {
         // 計算機への入力を行う
         entry: function(value) {
             for (i = 0; i < responses.length; i++) {
-                if (value.match(responses[i].matcher)) {
-                    responses[i].responseTo(value);
-                }
+                responses[i](value);
             }
             return this;
         },
