@@ -28,10 +28,10 @@ Calculator = function() {
         },
         function(value){
             if (!value.match(/[\+\-\*\/]/)) { return; }
+            constantCalculator = null;
             if (currentMode === MODE_ACCUMULATING) {
                 calculator.entry("=").entry(value);
             } else {
-                constantCalculator = null;
                 operator = value;
             }
             currentMode = MODE_OPERATOR_SETTED;
@@ -47,6 +47,7 @@ Calculator = function() {
                 accumulator = operator ?
                     eval(accumulator + operator + incoming).toString():
                     incoming;
+                operator = null;
             }
             currentMode = MODE_EVALUATED;
         },

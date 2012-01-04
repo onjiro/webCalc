@@ -19,6 +19,15 @@ describe("Calculator", function() {
         expect(calc.entry("1").entry("+").entry("2").entry("-").display()).toBe("3");
         expect(calc.entry("4").entry("=").display()).toBe("-1");
     });
+    it("計算実施後に新たな計算が開始できること", function() {
+        calc = new Calculator();
+        expect(calc.entry("3").entry("-").entry("2").entry("=").display()).toBe("1");
+        expect(calc.entry("1").display()).toBe("1");
+        expect(calc.entry("2").display()).toBe("12");
+        expect(calc.entry("+").display()).toBe("12");
+        expect(calc.entry("3").display()).toBe("3");
+        expect(calc.entry("=").display()).toBe("15");
+    });
     it("計算後は数値+'='を入力することで定数計算が可能なこと。後に入力した数値が定数として使用される", function() {
         calc = new Calculator();
         expect(calc.entry("6").entry("/").entry("2").entry("=").display()).toBe("3");
