@@ -17,11 +17,9 @@ Calculator = function() {
     var responses = [
         function(value){
             if (!value.match(/[0-9]/)) { return; }
-            if (currentMode === MODE_ACCUMULATING) {
-                incoming += value;
-            } else {
-                incoming = value;
-            }
+            incoming = (currentMode === MODE_ACCUMULATING) ?
+                incoming + value:
+                value;
             currentMode = MODE_ACCUMULATING;
         },
         function(value){
@@ -29,9 +27,8 @@ Calculator = function() {
             constantCalculator = null;
             if (currentMode === MODE_ACCUMULATING) {
                 calculator.entry("=").entry(value);
-            } else {
-                operator = value;
             }
+            operator = value;
             currentMode = MODE_OPERATOR_SETTED;
         },
         function(value){
