@@ -13,8 +13,6 @@ Calculator = function() {
     var operator = null;
     // 定数計算機、計算結果の評価時に使用した定数を格納しておく
     var constantCalculator = null;
-    // 直前に評価が行われたかどうか
-    var evaluatedJustBefore = true;
     
     var responses = [
         function(value){
