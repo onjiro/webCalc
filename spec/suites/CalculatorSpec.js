@@ -40,4 +40,12 @@ describe("Calculator", function() {
         expect(calc.entry("4").display()).toBe("4");
         expect(calc.entry("=").display()).toBe("8");
     });
+    it("一度も計算を実施していない場合、定数計算が使用できないこと", function() {
+        calc = new Calculator(); 
+        expect(calc.entry("=").display()).toBe("0");
+        expect(calc.entry("1").display()).toBe("1");
+        expect(calc.entry("=").display()).toBe("1");
+        expect(calc.entry("2").display()).toBe("2");
+        expect(calc.entry("=").display()).toBe("2");
+   });
 });
