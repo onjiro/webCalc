@@ -19,4 +19,10 @@ describe("Calculator", function() {
         expect(calc.entry("1").entry("+").entry("2").entry("-").display()).toBe("3");
         expect(calc.entry("4").entry("=").display()).toBe("-1");
     });
+    it("計算後は数値+'='を入力することで定数計算が可能なこと。後に入力した数値が定数として使用される", function() {
+        calc = new Calculator();
+        expect(calc.entry("6").entry("/").entry("2").entry("=").display()).toBe("3");
+        expect(calc.entry("8").display()).toBe("8");
+        expect(calc.entry("=").display()).toBe("4");
+    });
 });

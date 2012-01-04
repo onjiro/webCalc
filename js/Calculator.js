@@ -12,7 +12,7 @@ Calculator = function() {
     // 現在の計算モード
     var operator = "";
     // 定数計算機、計算結果の評価時に使用した定数を格納しておく
-    var constantCalculator = "";
+    var constantCalculator = null;
     // 直前に評価が行われたかどうか
     var evaluatedJustBefore = true;
     
@@ -31,14 +31,20 @@ Calculator = function() {
             if (currentMode === MODE_ACCUMULATING) {
                 calculator.entry("=").entry(value);
             } else {
+                constantCalculator = null;
                 operator = value;
             }
             currentMode = MODE_OPERATOR_SETTED;
         },
         function(value){
             if (!value.match("=")) { return; }
-            accumulator = (operator === "") ? 
-                incoming: eval(accumulator + operator + incoming).toString();
+            if (constantCalculator) {
+                accumulator = eval(incoming + constantCalculator).toString();
+            } else {
+                accumulator = (operator === "") ? incoming:
+                    eval(accumulator + operator + incoming).toString();
+                constantCalculator = operator + incoming;
+            }
             currentMode = MODE_EVALUATED;
         },
     ];
