@@ -10,7 +10,7 @@ Calculator = function() {
     // 数値の入力を受け取るスタック
     var incoming = "0";
     // 現在の計算モード
-    var operator = "";
+    var operator = null;
     // 定数計算機、計算結果の評価時に使用した定数を格納しておく
     var constantCalculator = null;
     // 直前に評価が行われたかどうか
@@ -44,8 +44,9 @@ Calculator = function() {
                 constantCalculator = (operator === "*") ? 
                     operator + accumulator:
                     operator + incoming;
-                accumulator = (operator === "") ? incoming:
-                    eval(accumulator + operator + incoming).toString();
+                accumulator = operator ?
+                    eval(accumulator + operator + incoming).toString():
+                    incoming;
             }
             currentMode = MODE_EVALUATED;
         },
