@@ -41,9 +41,11 @@ Calculator = function() {
             if (constantCalculator) {
                 accumulator = eval(incoming + constantCalculator).toString();
             } else {
+                constantCalculator = (operator === "*") ? 
+                    operator + accumulator:
+                    operator + incoming;
                 accumulator = (operator === "") ? incoming:
                     eval(accumulator + operator + incoming).toString();
-                constantCalculator = operator + incoming;
             }
             currentMode = MODE_EVALUATED;
         },

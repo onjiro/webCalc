@@ -25,4 +25,10 @@ describe("Calculator", function() {
         expect(calc.entry("8").display()).toBe("8");
         expect(calc.entry("=").display()).toBe("4");
     });
+    it("掛け算の定数計算の場合は先に入力した数値が定数として使用されること", function() {
+        calc = new Calculator();
+        expect(calc.entry("2").entry("*").entry("3").entry("=").display()).toBe("6");
+        expect(calc.entry("4").display()).toBe("4");
+        expect(calc.entry("=").display()).toBe("8");
+    });
 });
