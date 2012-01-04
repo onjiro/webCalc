@@ -11,8 +11,9 @@ Calculator = function() {
     var incoming = "0";
     // 現在の計算モード
     var operator = null;
-    // 定数計算機、計算結果の評価時に使用した定数を格納しておく
-    var constantCalculator = null;
+    // 定数計算機、計算結果の評価時に使用した算術子、値を格納しておく
+    var constantOperator = null;
+    var constantValue = null;
     
     var responses = [
         function(value){
@@ -24,7 +25,7 @@ Calculator = function() {
         },
         function(value){
             if (!value.match(/[\+\-\*\/]/)) { return; }
-            constantCalculator = null;
+            constantOperator = constantValue = null;
             if (currentMode === MODE_ACCUMULATING) {
                 calculator.entry("=").entry(value);
             }
@@ -33,17 +34,19 @@ Calculator = function() {
         },
         function(value){
             if (!value.match("=")) { return; }
-            if (constantCalculator) {
-                accumulator = eval(incoming + constantCalculator).toString();
-            } else {
-                constantCalculator = (operator === "*") ? 
-                    operator + accumulator:
-                    operator + incoming;
-                accumulator = operator ?
-                    eval(accumulator + operator + incoming).toString():
-                    incoming;
-                operator = null;
+            if (!operator && constantOperator && constantValue) {
+                accumulator = incoming;
+                operator = constantOperator;
+                incoming = constantValue;
             }
+            if (operator) {
+                constantOperator = operator;
+                constantValue = (operator === "*") ? accumulator: incoming;
+                accumulator = eval(accumulator + operator + incoming).toString();
+            } else {
+                accumulator = incoming;
+            }
+            operator = null;
             currentMode = MODE_EVALUATED;
         },
     ];
