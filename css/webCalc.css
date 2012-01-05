@@ -33,6 +33,8 @@
     padding-bottom: 0.4em;
     box-shadow: inset -1px -1px 1px 1px #333;
     position: relative;
+    -moz-transition: -moz-transform 0.1s linear, background-color 0.5s linear;
+    -webkit-transition: -webkit-transform 0.1s linear, background-color 0.5s linear;
 }
 #calcBoard .calcButton:after {
     position: absolute;
@@ -47,4 +49,11 @@
 }
 #calcBoard .calcButton:last-child {
     margin-right: 0;
+}
+#calcBoard .calcButton:active {
+    background-color: #eef;
+    -moz-transform: scale(1.15);
+    -moz-transition: -moz-transform 0s linear, background-color 0s linear;
+    -webkit-transform: scale(1.15);
+    -webkit-transition: -webkit-transform 0s linear, background-color 0s linear;
 }
