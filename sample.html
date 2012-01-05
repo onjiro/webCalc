@@ -4,6 +4,7 @@
   <title>webCalc sample</title>
   <meta charset="utf-8">
   <script src="js/jquery-1.7.1.min.js"></script>
+  <script src="js/Calculator.js"></script>
   <script src="js/webCalc.js"></script>
   <link rel="stylesheet" type="text/css" href="css/webCalc.css" />
   <style type="text/css">
@@ -69,19 +70,16 @@
 <!--
   $(function(){
     $(".input").bind("click", function(){
-      $(this).addClass("active");
+      var $this = $(this);
+      $this.addClass("active");
       
-      // TODO js 呼び出しコード
+      // 呼び出しコード
       calc.start(function(event, value){
-        alert("決定されました。");
+        $("div.content div.input").html(value + ".");
+        $this.removeClass("active");
       }, function(evnet, value){
-        alert("キャンセルされました。");
+        $this.removeClass("active");
       });
-    });
-
-    // これを js 側で仕込む
-    $(".input").bind("entry", function(event, value){
-      $(this).text(value + ".");
     });
   });
   -->
