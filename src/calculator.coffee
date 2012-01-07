@@ -1,4 +1,4 @@
-Calculator = ->
+this.Calculator = ->
   MODE_ACCUMULATING = 0
   MODE_OPERATOR_SETTED = 1
   MODE_EVALUATED = 2

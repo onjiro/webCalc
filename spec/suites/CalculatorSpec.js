@@ -1,3 +1,5 @@
+Calculator = require("../../src/calculator").Calculator
+
 describe("Calculator", function() {
     it("初期化時には 0 が表示されていること", function() {
         calc = new Calculator();

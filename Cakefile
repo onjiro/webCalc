@@ -16,6 +16,9 @@ task "build", "src をビルドして webCalc.js を生成します", (options)-
 task "clean", "build によって生成されるファイルを削除します", (options)->
   exec "rm #{DEST}", endwith(->console.log "succeed to clean") if existsSync DEST
 
+task "test", "src が spec を満たしているかのテストを実施します", (options)->
+  exec "jasmine-node --coffee spec", endwith()
+
 # exec 完了時のコールバック用関数生成関数
 endwith = (yield)->
   return (err, stdout, stderr)->
