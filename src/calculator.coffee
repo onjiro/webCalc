@@ -26,7 +26,7 @@ this.Calculator = ->
         ((value) ->
           return  unless value.match(/[\+\-\*\/]/)
           constants = null
-          calculator.entry("=").entry value if mode is MODE.ACCUMULATING
+          calculator.entry("=").entry value if current.incoming
           current.operator = value
           mode = MODE.OPERATOR_SETTED
         ),
