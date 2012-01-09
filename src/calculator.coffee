@@ -1,11 +1,4 @@
 this.Calculator = ->
-  # Calculator のステートを表す定数
-  MODE = {
-    ACCUMULATING: 0,
-    OPERATOR_SETTED: 1,
-    EVALUATED: 2,
-  }
-  mode = MODE.OPERATOR_SETTED
   current = {
     accumulator: null,
     incoming: null,
@@ -21,14 +14,12 @@ this.Calculator = ->
         ((value) ->
           return  unless value.match(/[0-9]/)
           current.incoming = (current.incoming || "") + value
-          mode = MODE.ACCUMULATING
         ),
         ((value) ->
           return  unless value.match(/[\+\-\*\/]/)
           constants = null
           calculator.entry("=").entry value if current.incoming
           current.operator = value
-          mode = MODE.OPERATOR_SETTED
         ),
         ((value) ->
           return  unless value.match("=")
@@ -51,6 +42,5 @@ this.Calculator = ->
               incoming: null,
               operator: null,
             }
-          mode = MODE.EVALUATED
         )]
       return this
