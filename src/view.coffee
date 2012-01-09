@@ -1,7 +1,7 @@
 $calcBoard = null
 $ ->
   # 電卓のビューとなるHTMLを作成
-  buttons = ""
+  htmlButtons = ""
   for line in [
     [ "7", "8", "9", "-" ],
     [ "4", "5", "6", "+" ],
@@ -10,8 +10,9 @@ $ ->
     do (line) ->
       htmlLine = ""
       htmlLine += "<div class=\"calcButton\">#{value}</div>" for value in line
-      buttons += "<div class=\"calcLine\">#{htmlLine}</div>"
-  $("body").append $calcBoard = $("<div id=\"calcBoard\"><div class=\"display\">0.</div>#{buttons}</div>").hide()
+      htmlButtons += "<div class=\"calcLine\">#{htmlLine}</div>"
+  htmlDisplay = "<div class=\"display\">0.</div>"
+  $("body").append $calcBoard = $("<div id=\"calcBoard\">#{htmlDisplay}#{htmlButtons}</div>").hide()
   $calcBoard.display = (value) -> $calcBoard.find(".display").html(value).end()
 
   # 電卓の動作を各ボタンに割り当て
