@@ -47,9 +47,21 @@
     border-color: #666;
   }
   .input:active, .input.active {
-    color: #666;
+    color: #333;
     border: 2px #add solid;
     box-shadow: 0 0 4px 4px #aee;
+  }
+  .input span {
+    display: inline-block;
+    -moz-transition: -moz-transform 0.2s linear, color 0.8s linear;
+    -webkit-transition: -webkit-transform 0.2s linear, color 0.8s linear;
+  }
+  .input .entered {
+    color: #8cc;
+    -moz-transform: scale(1.8);
+    -moz-transition: -moz-transform 0s linear;
+    -webkit-transform: scale(1.8);
+    -webkit-transition: -webkit-transform 0s linear, color 0s linear;
   }
     -->
   </style>
@@ -61,7 +73,7 @@
     </header>
     <div class="content">
       <div class="label">枠内をクリックしてください。</div>
-      <div class="input">0.</div>
+      <div class="input"><span>0.</span></div>
     </div>
   </article>
 </body>
@@ -74,7 +86,8 @@
       
       // 呼び出しコード
       calc.start(function(event, value){
-        $("div.content div.input").html(value + ".");
+        $this.find("span").html(value + ".").addClass("entered")
+        setTimeout(function(){$this.find(".entered").removeClass("entered");} ,100);
         $this.removeClass("active");
       }, function(evnet, value){
         $this.removeClass("active");
