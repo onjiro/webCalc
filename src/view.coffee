@@ -19,15 +19,22 @@ $ ->
   $calcButtons.not(":contains(OK)").bind "click", (event) ->
     $calcBoard.display "#{calculator.entry($(this).html()).display()}."
   $calcButtons.filter(":contains(OK)").bind "click", (event) ->
-    removeHandlers()
+    cancelHandlers.remove()
     $calcBoard.trigger "calcDecide", calculator.display()
 
 calculator = null
-eventIds = []
-removeHandlers = ->
-  $.each eventIds, (i, id) -> clearTimeout id
+cancelHandlers = (->
   eventIds = []
-  $("body > *").unbind "click", calc.cancel
+  return {
+    # 直接 cancel をバインドすると、直後に cancel が発動してしまうため setTimeout で間接的にバインドする
+    add: ->
+      eventIds.push setTimeout((-> $("body > *:not(#calcBoard)").bind "click", calc.cancel), 0)
+    remove: ->
+      clearTimeout id for id in eventIds
+      eventIds = []
+      $("body > *").unbind "click", calc.cancel
+  }
+).call()
 
 # クライアントから使用されるAPIを定義
 this.calc =
@@ -36,8 +43,7 @@ this.calc =
     oncancel = oncancel or (event, value) ->
     calculator = new Calculator()
 
-    # 直接 cancel をバインドすると、直後に cancel が発動してしまうため setTimeout で間接的にバインドする
-    eventIds.push setTimeout((-> $("body > *:not(#calcBoard)").bind "click", calc.cancel), 0)
+    cancelHandlers.add()
     $calcBoard.display("#{calculator.display()}.").show().
     bind("calcCancel", (event, value) ->
       oncancel event, value
@@ -47,6 +53,6 @@ this.calc =
       $(this).hide()
 
   cancel: ->
-    removeHandlers()
+    cancelHandlers.remove()
     $calcBoard.trigger "calcCancel", calculator.display()
 
