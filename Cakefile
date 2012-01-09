@@ -23,8 +23,9 @@ task "test", "src が spec を満たしているかのテストを実施しま�
 endwith = (yield)->
   return (err, stdout, stderr)->
     yield(err, stdout, stderr) if yield
-    throw err if err
-    console.log "#{stdout} #{stderr}" if (stdout or stderr)
+    console.error err.message if err
+    console.log stdout if stdout
+    console.error stderr if stderr
 
 # filepath 以下を走査して各ディレクトリ、ファイルのパスを引数に yield を実行する関数
 crowl = (filepath, yield) ->
