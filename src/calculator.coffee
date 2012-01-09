@@ -26,26 +26,27 @@ this.Calculator = ->
         ((value) ->
           return  unless value.match(/[\+\-\*\/]/)
           constants = null
-          calculator.entry("=").entry value  if mode is MODE.ACCUMULATING
+          calculator.entry("=").entry value if mode is MODE.ACCUMULATING
           current.operator = value
           mode = MODE.OPERATOR_SETTED
         ),
         ((value) ->
           return  unless value.match("=")
           if not current.operator and constants
-            current.accumulator = current.incoming
-            current.operator = constants.operator
-            current.incoming = constants.value
-          if current.operator
-            constants = {
-              operator: current.operator
-              value: (if (current.operator is "*") then current.accumulator else current.incoming)
+            current = {
+              accumulator: (constants.accumulator if constants.operator is "*") || current.incoming,
+              operator: constants.operator,
+              incoming: (constants.incoming unless constants.operator is "*") || current.incoming,
             }
-            current.accumulator = eval(current.accumulator + current.operator + current.incoming).toString()
+          if current.operator
+            constants = current
+            current = {
+              accumulator: eval(current.accumulator + current.operator + current.incoming).toString(),
+              incoming: null,
+              operator: null,
+            }
           else
             current.accumulator = current.incoming || "0"
-          current.incoming = null
-          current.operator = null
           mode = MODE.EVALUATED
         )]
       return this
