@@ -1,3 +1,4 @@
+$calcBoard = null
 $ ->
   # 電卓のビューとなるHTMLを作成
   buttons = ""
@@ -10,17 +11,16 @@ $ ->
       htmlLine = ""
       htmlLine += "<div class=\"calcButton\">#{value}</div>" for value in line
       buttons += "<div class=\"calcLine\">#{htmlLine}</div>"
-  $html = $("<div id=\"calcBoard\"><div class=\"display\">0.</div>#{buttons}</div>")
-  $html.hide()
-  $("body").append $html
+  $("body").append $calcBoard = $("<div id=\"calcBoard\"><div class=\"display\">0.</div>#{buttons}</div>").hide()
+  $calcBoard.display = (value) -> $calcBoard.find(".display").html(value).end()
 
   # 電卓の動作を各ボタンに割り当て
-  $("div.calcButton", $html).not(":contains(OK)").bind "click", (event) ->
-    calculator.entry $(this).html()
-    $("#calcBoard div.display").html "#{calculator.display()}."
-  $("div.calcButton:contains(OK)", $html).bind "click", (event) ->
+  $calcButtons = $calcBoard.find("div.calcButton")
+  $calcButtons.not(":contains(OK)").bind "click", (event) ->
+    $calcBoard.display "#{calculator.entry($(this).html()).display()}."
+  $calcButtons.filter(":contains(OK)").bind "click", (event) ->
     removeHandlers()
-    $("#calcBoard").trigger "calcDecide", calculator.display()
+    $calcBoard.trigger "calcDecide", calculator.display()
 
 calculator = null
 eventIds = []
@@ -29,18 +29,17 @@ removeHandlers = ->
   eventIds = []
   $("body > *").unbind "click", calc.cancel
 
+# クライアントから使用されるAPIを定義
 this.calc =
   start: (ondecide, oncancel) ->
     ondecide = ondecide or (event, value) ->
     oncancel = oncancel or (event, value) ->
-
     calculator = new Calculator()
-    $("#calcBoard div.display").html "#{calculator.display()}."
-    $("#calcBoard").show()
-    eventIds.push setTimeout(->
-      $("body > *:not(#calcBoard)").bind "click", calc.cancel
-    , 0)
-    $("#calcBoard").bind("calcCancel", (event, value) ->
+
+    # 直接 cancel をバインドすると、直後に cancel が発動してしまうため setTimeout で間接的にバインドする
+    eventIds.push setTimeout((-> $("body > *:not(#calcBoard)").bind "click", calc.cancel), 0)
+    $calcBoard.display("#{calculator.display()}.").show().
+    bind("calcCancel", (event, value) ->
       oncancel event, value
       $(this).hide()
     ).bind "calcDecide", (event, value) ->
@@ -49,5 +48,5 @@ this.calc =
 
   cancel: ->
     removeHandlers()
-    $("#calcBoard").trigger "calcCancel", calculator.display()
+    $calcBoard.trigger "calcCancel", calculator.display()
 
