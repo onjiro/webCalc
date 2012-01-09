@@ -5,44 +5,46 @@ this.Calculator = ->
     OPERATOR_SETTED: 1,
     EVALUATED: 2,
   }
-  currentMode = MODE.OPERATOR_SETTED
-  accumulator = "0"
-  incoming = "0"
-  operator = null
+  mode = MODE.OPERATOR_SETTED
+  current = {
+    accumulator: "0",
+    incoming: "0",
+    operator: null,
+  }
   constants = null
 
   return calculator =
-    display: -> return (if currentMode is MODE.ACCUMULATING then incoming else accumulator)
-    operator: -> return operator
+    display: -> return (if mode is MODE.ACCUMULATING then current.incoming else current.accumulator)
+    operator: -> return current.operator
     entry: (value) ->
       respondTo value for respondTo in [
         ((value) ->
           return  unless value.match(/[0-9]/)
-          incoming = (if (currentMode is MODE.ACCUMULATING) then incoming + value else value)
-          currentMode = MODE.ACCUMULATING
+          current.incoming = (if (mode is MODE.ACCUMULATING) then current.incoming + value else value)
+          mode = MODE.ACCUMULATING
         ),
         ((value) ->
           return  unless value.match(/[\+\-\*\/]/)
           constants = null
-          calculator.entry("=").entry value  if currentMode is MODE.ACCUMULATING
-          operator = value
-          currentMode = MODE.OPERATOR_SETTED
+          calculator.entry("=").entry value  if mode is MODE.ACCUMULATING
+          current.operator = value
+          mode = MODE.OPERATOR_SETTED
         ),
         ((value) ->
           return  unless value.match("=")
-          if not operator and constants
-            accumulator = incoming
-            operator = constants.operator
-            incoming = constants.value
-          if operator
+          if not current.operator and constants
+            current.accumulator = current.incoming
+            current.operator = constants.operator
+            current.incoming = constants.value
+          if current.operator
             constants = {
-              operator: operator
-              value: (if (operator is "*") then accumulator else incoming)
+              operator: current.operator
+              value: (if (current.operator is "*") then current.accumulator else current.incoming)
             }
-            accumulator = eval(accumulator + operator + incoming).toString()
+            current.accumulator = eval(current.accumulator + current.operator + current.incoming).toString()
           else
-            accumulator = incoming
-          operator = null
-          currentMode = MODE.EVALUATED
+            current.accumulator = current.incoming
+          current.operator = null
+          mode = MODE.EVALUATED
         )]
       return this
