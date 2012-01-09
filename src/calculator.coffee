@@ -23,6 +23,7 @@ this.Calculator = ->
         ),
         ((value) ->
           return  unless value.match("=")
+          current.incoming = current.incoming or current.accumulator
           if not current.operator and constants
             current = {
               accumulator: (constants.accumulator if constants.operator is "*") || current.incoming,
