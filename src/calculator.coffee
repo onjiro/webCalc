@@ -14,7 +14,7 @@ this.Calculator = ->
   constants = null
 
   return calculator =
-    display: -> return (if mode is MODE.ACCUMULATING then current.incoming else current.accumulator || "0")
+    display: -> return current.incoming || current.accumulator || "0"
     operator: -> return current.operator
     entry: (value) ->
       respondTo value for respondTo in [
@@ -44,6 +44,7 @@ this.Calculator = ->
             current.accumulator = eval(current.accumulator + current.operator + current.incoming).toString()
           else
             current.accumulator = current.incoming || "0"
+          current.incoming = null
           current.operator = null
           mode = MODE.EVALUATED
         )]
