@@ -20,7 +20,7 @@ this.Calculator = ->
       respondTo value for respondTo in [
         ((value) ->
           return  unless value.match(/[0-9]/)
-          current.incoming = (if (mode is MODE.ACCUMULATING) then current.incoming + value else value)
+          current.incoming = (current.incoming || "") + value
           mode = MODE.ACCUMULATING
         ),
         ((value) ->
@@ -46,7 +46,11 @@ this.Calculator = ->
               operator: null,
             }
           else
-            current.accumulator = current.incoming || "0"
+            current = {
+              accumulator: current.incoming || "0"
+              incoming: null,
+              operator: null,
+            }
           mode = MODE.EVALUATED
         )]
       return this
