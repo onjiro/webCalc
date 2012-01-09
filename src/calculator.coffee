@@ -9,8 +9,7 @@ this.Calculator = ->
   accumulator = "0"
   incoming = "0"
   operator = null
-  constantOperator = null
-  constantValue = null
+  constants = null
 
   return calculator =
     display: -> return (if currentMode is MODE.ACCUMULATING then incoming else accumulator)
@@ -24,20 +23,22 @@ this.Calculator = ->
         ),
         ((value) ->
           return  unless value.match(/[\+\-\*\/]/)
-          constantOperator = constantValue = null
+          constants = null
           calculator.entry("=").entry value  if currentMode is MODE.ACCUMULATING
           operator = value
           currentMode = MODE.OPERATOR_SETTED
         ),
         ((value) ->
           return  unless value.match("=")
-          if not operator and constantOperator and constantValue
+          if not operator and constants
             accumulator = incoming
-            operator = constantOperator
-            incoming = constantValue
+            operator = constants.operator
+            incoming = constants.value
           if operator
-            constantOperator = operator
-            constantValue = (if (operator is "*") then accumulator else incoming)
+            constants = {
+              operator: operator
+              value: (if (operator is "*") then accumulator else incoming)
+            }
             accumulator = eval(accumulator + operator + incoming).toString()
           else
             accumulator = incoming
