@@ -15,24 +15,29 @@ $ ->
   $("body").append $html
 
   # 電卓の動作を各ボタンに割り当て
-  $("div.calcButton", calc.$html).not(":contains(OK)").bind "click", (event) ->
-    calc.calculator.entry $(this).html()
-    $("#calcBoard div.display").html "#{calc.calculator.display()}."
-  $("div.calcButton:contains(OK)", calc.$html).bind "click", (event) ->
-    calc.removeHandlers()
-    $("#calcBoard").trigger "calcDecide", calc.calculator.display()
+  $("div.calcButton", $html).not(":contains(OK)").bind "click", (event) ->
+    calculator.entry $(this).html()
+    $("#calcBoard div.display").html "#{calculator.display()}."
+  $("div.calcButton:contains(OK)", $html).bind "click", (event) ->
+    removeHandlers()
+    $("#calcBoard").trigger "calcDecide", calculator.display()
+
+calculator = null
+eventIds = []
+removeHandlers = ->
+  $.each eventIds, (i, id) -> clearTimeout id
+  eventIds = []
+  $("body > *").unbind "click", calc.cancel
 
 this.calc =
-  eventIds: []
-  calculator: null
   start: (ondecide, oncancel) ->
     ondecide = ondecide or (event, value) ->
     oncancel = oncancel or (event, value) ->
 
-    calc.calculator = new Calculator()
-    $("#calcBoard div.display").html "#{calc.calculator.display()}."
+    calculator = new Calculator()
+    $("#calcBoard div.display").html "#{calculator.display()}."
     $("#calcBoard").show()
-    calc.eventIds.push setTimeout(->
+    eventIds.push setTimeout(->
       $("body > *:not(#calcBoard)").bind "click", calc.cancel
     , 0)
     $("#calcBoard").bind("calcCancel", (event, value) ->
@@ -43,12 +48,6 @@ this.calc =
       $(this).hide()
 
   cancel: ->
-    calc.removeHandlers()
-    $("#calcBoard").trigger "calcCancel", calc.calculator.display()
+    removeHandlers()
+    $("#calcBoard").trigger "calcCancel", calculator.display()
 
-  removeHandlers: ->
-    $.each calc.eventIds, (i, id) ->
-      clearTimeout id
-
-    calc.eventIds = []
-    $("body > *").unbind "click", calc.cancel
