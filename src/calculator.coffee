@@ -1,48 +1,46 @@
 this.Calculator = ->
-  # Calculator のステートを表す定数
-  MODE = {
-    ACCUMULATING: 0,
-    OPERATOR_SETTED: 1,
-    EVALUATED: 2,
+  current = {
+    accumulator: null,
+    incoming: null,
+    operator: null,
   }
-  currentMode = MODE.OPERATOR_SETTED
-  accumulator = "0"
-  incoming = "0"
-  operator = null
   constants = null
 
   return calculator =
-    display: -> return (if currentMode is MODE.ACCUMULATING then incoming else accumulator)
-    operator: -> return operator
+    display: -> return current.incoming || current.accumulator || "0"
+    operator: -> return current.operator
     entry: (value) ->
       respondTo value for respondTo in [
         ((value) ->
           return  unless value.match(/[0-9]/)
-          incoming = (if (currentMode is MODE.ACCUMULATING) then incoming + value else value)
-          currentMode = MODE.ACCUMULATING
+          current.incoming = (current.incoming || "") + value
         ),
         ((value) ->
           return  unless value.match(/[\+\-\*\/]/)
           constants = null
-          calculator.entry("=").entry value  if currentMode is MODE.ACCUMULATING
-          operator = value
-          currentMode = MODE.OPERATOR_SETTED
+          calculator.entry("=").entry value if current.incoming
+          current.operator = value
         ),
         ((value) ->
           return  unless value.match("=")
-          if not operator and constants
-            accumulator = incoming
-            operator = constants.operator
-            incoming = constants.value
-          if operator
-            constants = {
-              operator: operator
-              value: (if (operator is "*") then accumulator else incoming)
+          if not current.operator and constants
+            current = {
+              accumulator: (constants.accumulator if constants.operator is "*") || current.incoming,
+              operator: constants.operator,
+              incoming: (constants.incoming unless constants.operator is "*") || current.incoming,
             }
-            accumulator = eval(accumulator + operator + incoming).toString()
+          if current.operator
+            constants = current
+            current = {
+              accumulator: eval(current.accumulator + current.operator + current.incoming).toString(),
+              incoming: null,
+              operator: null,
+            }
           else
-            accumulator = incoming
-          operator = null
-          currentMode = MODE.EVALUATED
+            current = {
+              accumulator: current.incoming || "0"
+              incoming: null,
+              operator: null,
+            }
         )]
       return this
