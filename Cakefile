@@ -9,7 +9,7 @@ SRCDIR = "src"
 task "build", "src をビルドして webCalc.js を生成します", (options)->
   srcs = []
   crowl SRCDIR, (filepath)->
-    srcs.push filepath if filepath.match /.*\.coffee/
+    srcs.push filepath if filepath.match /.*\.coffee$/
   exec "coffee -cj #{DEST} #{srcs.join ' '}", endwith (err, stdout, stderr)->
     console.log "succeed to build '#{DEST}'" unless stderr
 
