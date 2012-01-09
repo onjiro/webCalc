@@ -7,14 +7,14 @@ this.Calculator = ->
   }
   mode = MODE.OPERATOR_SETTED
   current = {
-    accumulator: "0",
+    accumulator: null,
     incoming: null,
     operator: null,
   }
   constants = null
 
   return calculator =
-    display: -> return (if mode is MODE.ACCUMULATING then current.incoming else current.accumulator)
+    display: -> return (if mode is MODE.ACCUMULATING then current.incoming else current.accumulator || "0")
     operator: -> return current.operator
     entry: (value) ->
       respondTo value for respondTo in [
