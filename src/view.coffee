@@ -1,34 +1,36 @@
 $ ->
+  # 電卓のビューとなるHTMLを作成
   buttons = ""
-  $.each [ [ "7", "8", "9", "-" ], [ "4", "5", "6", "+" ], [ "1", "2", "3", "=" ], [ "0", "00", ".", "OK" ] ], (i, line) ->
-    buttons += "<div class=\"calcLine\">"
-    $.each line, (j, value) ->
-      buttons += "<div class=\"calcButton\">" + value + "</div>"
+  for line in [
+    [ "7", "8", "9", "-" ],
+    [ "4", "5", "6", "+" ],
+    [ "1", "2", "3", "=" ],
+    [ "0", "00", ".", "OK" ] ]
+    do (line) ->
+      htmlLine = ""
+      htmlLine += "<div class=\"calcButton\">#{value}</div>" for value in line
+      buttons += "<div class=\"calcLine\">#{htmlLine}</div>"
+  $html = $("<div id=\"calcBoard\"><div class=\"display\">0.</div>#{buttons}</div>")
+  $html.hide()
+  $("body").append $html
 
-    buttons += "</div>"
-
-  calc.$html = $("<div id=\"calcBoard\" style=\"display: none;\"><div class=\"display\">0.</div>#{buttons}</div>".replace("#{buttons}", buttons))
+  # 電卓の動作を各ボタンに割り当て
   $("div.calcButton", calc.$html).not(":contains(OK)").bind "click", (event) ->
-    value = $(this).html()
-    calc.calculator.entry value
-    $("#calcBoard div.display").html calc.calculator.display() + "."
-
+    calc.calculator.entry $(this).html()
+    $("#calcBoard div.display").html "#{calc.calculator.display()}."
   $("div.calcButton:contains(OK)", calc.$html).bind "click", (event) ->
     calc.removeHandlers()
     $("#calcBoard").trigger "calcDecide", calc.calculator.display()
-
-  $("body").append calc.$html
 
 this.calc =
   eventIds: []
   calculator: null
   start: (ondecide, oncancel) ->
     ondecide = ondecide or (event, value) ->
-
     oncancel = oncancel or (event, value) ->
 
     calc.calculator = new Calculator()
-    $("#calcBoard div.display").html calc.calculator.display() + "."
+    $("#calcBoard div.display").html "#{calc.calculator.display()}."
     $("#calcBoard").show()
     calc.eventIds.push setTimeout(->
       $("body > *:not(#calcBoard)").bind "click", calc.cancel
