@@ -8,7 +8,7 @@ this.Calculator = ->
   mode = MODE.OPERATOR_SETTED
   current = {
     accumulator: "0",
-    incoming: "0",
+    incoming: null,
     operator: null,
   }
   constants = null
@@ -43,7 +43,7 @@ this.Calculator = ->
             }
             current.accumulator = eval(current.accumulator + current.operator + current.incoming).toString()
           else
-            current.accumulator = current.incoming
+            current.accumulator = current.incoming || "0"
           current.operator = null
           mode = MODE.EVALUATED
         )]
