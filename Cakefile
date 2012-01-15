@@ -23,8 +23,11 @@ task "watch", "src, spec に変更がある度にビルド、テストを実行�
   console.log "start watching ..."
   watch.add("src").add("spec").onChange (path, prev, curr)->
     console.log "detected changes on #{path}"
-    invoke "build"
-    invoke "test"
+    proc = invoke "build"
+    proc.on "exit", ->
+      proc = invoke "test"
+      proc.on "exit", ->
+        console.log "build end now."
 
 # exec 完了時のコールバック用関数生成関数
 endwith = (yield)->
@@ -40,3 +43,6 @@ crowl = (filepath, yield) ->
   if fs.lstatSync(filepath).isDirectory()
     files = (join(filepath, filename) for filename in fs.readdirSync(filepath))
     crowl(newpath, yield) for newpath in files
+
+nextTick = (callback)->
+  setTimeout callback, 0
