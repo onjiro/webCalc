@@ -1,7 +1,7 @@
-sys = require "util"
 {exec} = require "child_process"
 fs = require "fs"
 {join, existsSync} = require "path"
+watch = require "nodewatch"
 
 DEST = "js/webCalc.js"
 SRCDIR = "src"
@@ -18,6 +18,13 @@ task "clean", "build によって生成されるファイルを削除します",
 
 task "test", "src が spec を満たしているかのテストを実施します", (options)->
   exec "jasmine-node --coffee spec", endwith()
+
+task "watch", "src, spec に変更がある度にビルド、テストを実行します", (options)->
+  console.log "start watching ..."
+  watch.add("src").add("spec").onChange (path, prev, curr)->
+    console.log "detected changes on #{path}"
+    invoke "build"
+    invoke "test"
 
 # exec 完了時のコールバック用関数生成関数
 endwith = (yield)->
