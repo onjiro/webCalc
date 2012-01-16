@@ -23,11 +23,9 @@ task "watch", "src, spec に変更がある度にビルド、テストを実行�
   console.log "start watching ..."
   watch.add("src").add("spec").onChange (path, prev, curr)->
     console.log "detected changes on #{path}"
-    proc = invoke "build"
-    proc.on "exit", ->
-      proc = invoke "test"
-      proc.on "exit", ->
-        console.log "build end now."
+    doSerial(-> invoke "build")
+      .with(-> invoke "test")
+      .with(-> console.log "build end now").call()
 
 # exec 完了時のコールバック用関数生成関数
 endwith = (yield)->
@@ -46,3 +44,23 @@ crowl = (filepath, yield) ->
 
 nextTick = (callback)->
   setTimeout callback, 0
+
+# 指定された関数を順次実行させるオブジェクトを生成します
+doSerial = (f)->
+  queue = [f]
+  return {
+    with: (f)->
+      queue.push f
+      this
+    call: ->
+      serialQueue = []
+      queue.reverse()
+      serializer = null
+      for f, i in queue
+        do (f, i) ->
+          serialQueue.push ->
+            proc = f()
+            proc.on("exit", serialQueue.pop()) unless serialQueue.length <= 0
+      queue.reverse()
+      serialQueue.pop()()
+    }
