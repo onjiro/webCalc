@@ -23,6 +23,10 @@ $ ->
     cancelHandlers.remove()
     $calcBoard.trigger "calcDecide", calculator.display()
 
+  # 各ボタンの押下時に active クラスを付加
+  $calcButtons.bind "vmousedown", (event)-> $(this).addClass "active"
+  $calcButtons.bind "vmouseup", (event)-> $(this).removeClass "active"
+
 calculator = null
 cancelHandlers = (->
   eventIds = []

@@ -50,7 +50,7 @@
 #calcBoard .calcButton:last-child {
     margin-right: 0;
 }
-#calcBoard .calcButton:active {
+#calcBoard .calcButton.active {
     background-color: #eef;
     -moz-transform: scale(1.15);
     -moz-transition: -moz-transform 0s linear, background-color 0s linear;
