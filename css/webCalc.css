@@ -72,58 +72,58 @@
     -webkit-transform: scale(1.2);
     z-index: 1;
 }
-#calcBoard .calcButton:active:before {
+#calcBoard .calcButton.active:before {
     display: block;
     visibility: visible;
 }
-#calcBoard .calcButton[data-value="1"]:active:before {
+#calcBoard .calcButton[data-value="1"].active:before {
     content: "1";
 }
-#calcBoard .calcButton[data-value="2"]:active:before {
+#calcBoard .calcButton[data-value="2"].active:before {
     content: "2";
 }
-#calcBoard .calcButton[data-value="3"]:active:before {
+#calcBoard .calcButton[data-value="3"].active:before {
     content: "3";
 }
-#calcBoard .calcButton[data-value="4"]:active:before {
+#calcBoard .calcButton[data-value="4"].active:before {
     content: "4";
 }
-#calcBoard .calcButton[data-value="5"]:active:before {
+#calcBoard .calcButton[data-value="5"].active:before {
     content: "5";
 }
-#calcBoard .calcButton[data-value="6"]:active:before {
+#calcBoard .calcButton[data-value="6"].active:before {
     content: "6";
 }
-#calcBoard .calcButton[data-value="7"]:active:before {
+#calcBoard .calcButton[data-value="7"].active:before {
     content: "7";
 }
-#calcBoard .calcButton[data-value="8"]:active:before {
+#calcBoard .calcButton[data-value="8"].active:before {
     content: "8";
 }
-#calcBoard .calcButton[data-value="9"]:active:before {
+#calcBoard .calcButton[data-value="9"].active:before {
     content: "9";
 }
-#calcBoard .calcButton[data-value="+"]:active:before {
+#calcBoard .calcButton[data-value="+"].active:before {
     content: "+";
 }
-#calcBoard .calcButton[data-value="-"]:active:before {
+#calcBoard .calcButton[data-value="-"].active:before {
     content: "-";
 }
-#calcBoard .calcButton[data-value="*"]:active:before {
+#calcBoard .calcButton[data-value="*"].active:before {
     content: "*";
 }
-#calcBoard .calcButton[data-value="/"]:active:before {
+#calcBoard .calcButton[data-value="/"].active:before {
     content: "/";
 }
-#calcBoard .calcButton[data-value="="]:active:before {
+#calcBoard .calcButton[data-value="="].active:before {
     content: "=";
 }
-#calcBoard .calcButton[data-value="00"]:active:before {
+#calcBoard .calcButton[data-value="00"].active:before {
     content: "00";
 }
-#calcBoard .calcButton[data-value="."]:active:before {
+#calcBoard .calcButton[data-value="."].active:before {
     content: ".";
 }
-#calcBoard .calcButton[data-value="OK"]:active:before {
+#calcBoard .calcButton[data-value="OK"].active:before {
     content: "OK";
 }
