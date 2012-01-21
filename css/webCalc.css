@@ -29,8 +29,8 @@
     margin-top: 0.2em;
     margin-bottom: 0.2em;
     margin-right: 4%;
-    padding-top: 0.4em;
-    padding-bottom: 0.4em;
+    padding-top: 1em;
+    padding-bottom: 1em;
     box-shadow: inset -1px -1px 1px 1px #333;
     position: relative;
     -moz-transition: -moz-transform 0.1s linear, background-color 0.5s linear;
@@ -42,8 +42,8 @@
     text-indent: -9999px;
     display: block;
     width: 100%;
-    margin-top: -1.4em;
-    height: 1.8em;
+    margin-top: -2em;
+    height: 3em;
     border-radius: 6px;
     box-shadow: 0 2px 2px 1px #000;
 }
@@ -56,4 +56,74 @@
     -moz-transition: -moz-transform 0s linear, background-color 0s linear;
     -webkit-transform: scale(1.15);
     -webkit-transition: -webkit-transform 0s linear, background-color 0s linear;
+}
+#calcBoard .calcButton:before {
+    position: absolute;
+    display: none;
+    visibility: hidden;
+    color: #4169e1;
+    text-shadow: 0 0 0 transparent;
+    width: 100%;
+    margin-top: -4em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border: solid 1px #4169e1;
+    background-color: #b0c4de;
+    -webkit-transform: scale(1.2);
+    z-index: 1;
+}
+#calcBoard .calcButton:active:before {
+    display: block;
+    visibility: visible;
+}
+#calcBoard .calcButton[data-value="1"]:active:before {
+    content: "1";
+}
+#calcBoard .calcButton[data-value="2"]:active:before {
+    content: "2";
+}
+#calcBoard .calcButton[data-value="3"]:active:before {
+    content: "3";
+}
+#calcBoard .calcButton[data-value="4"]:active:before {
+    content: "4";
+}
+#calcBoard .calcButton[data-value="5"]:active:before {
+    content: "5";
+}
+#calcBoard .calcButton[data-value="6"]:active:before {
+    content: "6";
+}
+#calcBoard .calcButton[data-value="7"]:active:before {
+    content: "7";
+}
+#calcBoard .calcButton[data-value="8"]:active:before {
+    content: "8";
+}
+#calcBoard .calcButton[data-value="9"]:active:before {
+    content: "9";
+}
+#calcBoard .calcButton[data-value="+"]:active:before {
+    content: "+";
+}
+#calcBoard .calcButton[data-value="-"]:active:before {
+    content: "-";
+}
+#calcBoard .calcButton[data-value="*"]:active:before {
+    content: "*";
+}
+#calcBoard .calcButton[data-value="/"]:active:before {
+    content: "/";
+}
+#calcBoard .calcButton[data-value="="]:active:before {
+    content: "=";
+}
+#calcBoard .calcButton[data-value="00"]:active:before {
+    content: "00";
+}
+#calcBoard .calcButton[data-value="."]:active:before {
+    content: ".";
+}
+#calcBoard .calcButton[data-value="OK"]:active:before {
+    content: "OK";
 }
