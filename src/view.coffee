@@ -17,9 +17,9 @@ $ ->
 
   # 電卓の動作を各ボタンに割り当て
   $calcButtons = $calcBoard.find("div.calcButton")
-  $calcButtons.not(":contains(OK)").bind "click", (event) ->
+  $calcButtons.not(":contains(OK)").bind "vclick", (event) ->
     $calcBoard.display "#{calculator.entry($(this).html()).display()}."
-  $calcButtons.filter(":contains(OK)").bind "click", (event) ->
+  $calcButtons.filter(":contains(OK)").bind "vclick", (event) ->
     cancelHandlers.remove()
     $calcBoard.trigger "calcDecide", calculator.display()
 
@@ -29,11 +29,11 @@ cancelHandlers = (->
   return {
     # 直接 cancel をバインドすると、直後に cancel が発動してしまうため setTimeout で間接的にバインドする
     add: ->
-      eventIds.push setTimeout((-> $("body > *:not(#calcBoard)").bind "click", calc.cancel), 0)
+      eventIds.push setTimeout((-> $("body > *:not(#calcBoard)").bind "vclick", calc.cancel), 0)
     remove: ->
       clearTimeout id for id in eventIds
       eventIds = []
-      $("body > *").unbind "click", calc.cancel
+      $("body > *").unbind "vclick", calc.cancel
   }
 ).call()
 
