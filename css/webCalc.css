@@ -29,8 +29,8 @@
     margin-top: 0.2em;
     margin-bottom: 0.2em;
     margin-right: 4%;
-    padding-top: 0.4em;
-    padding-bottom: 0.4em;
+    padding-top: 1em;
+    padding-bottom: 1em;
     box-shadow: inset -1px -1px 1px 1px #333;
     position: relative;
     -moz-transition: -moz-transform 0.1s linear, background-color 0.5s linear;
@@ -42,8 +42,8 @@
     text-indent: -9999px;
     display: block;
     width: 100%;
-    margin-top: -1.4em;
-    height: 1.8em;
+    margin-top: -2em;
+    height: 3em;
     border-radius: 6px;
     box-shadow: 0 2px 2px 1px #000;
 }
