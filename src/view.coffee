@@ -9,7 +9,7 @@ $ ->
     [ "0", "00", ".", "OK" ] ]
     do (line) ->
       htmlLine = ""
-      htmlLine += "<div class=\"calcButton\">#{value}</div>" for value in line
+      htmlLine += "<div class=\"calcButton\" data-value=\"#{value}\">#{value}</div>" for value in line
       htmlButtons += "<div class=\"calcLine\">#{htmlLine}</div>"
   htmlDisplay = "<div class=\"display\">0.</div>"
   $("body").append $calcBoard = $("<div id=\"calcBoard\">#{htmlDisplay}#{htmlButtons}</div>").hide()
@@ -18,7 +18,7 @@ $ ->
   # 電卓の動作を各ボタンに割り当て
   $calcButtons = $calcBoard.find("div.calcButton")
   $calcButtons.not(":contains(OK)").bind "click", (event) ->
-    $calcBoard.display "#{calculator.entry($(this).html()).display()}."
+    $calcBoard.display "#{calculator.entry($(this).text()).display()}."
   $calcButtons.filter(":contains(OK)").bind "click", (event) ->
     cancelHandlers.remove()
     $calcBoard.trigger "calcDecide", calculator.display()
