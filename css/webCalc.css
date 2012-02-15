@@ -1,3 +1,4 @@
+
 #calcBoard {
     min-width: 300px;
     max-width: 720px;
@@ -31,21 +32,10 @@
     margin-right: 4%;
     padding-top: 1em;
     padding-bottom: 1em;
-    box-shadow: inset -1px -1px 1px 1px #333;
+    box-shadow: inset -1px -1px 1px 1px #333, 0 2px 2px 1px #000;
     position: relative;
     -moz-transition: -moz-transform 0.1s linear, background-color 0.5s linear;
     -webkit-transition: -webkit-transform 0.1s linear, background-color 0.5s linear;
-}
-#calcBoard .calcButton:after {
-    position: absolute;
-    content: "a";
-    text-indent: -9999px;
-    display: block;
-    width: 100%;
-    margin-top: -2em;
-    height: 3em;
-    border-radius: 6px;
-    box-shadow: 0 2px 2px 1px #000;
 }
 #calcBoard .calcButton:last-child {
     margin-right: 0;
