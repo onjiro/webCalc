@@ -39,9 +39,8 @@ cancelHandlers = (->
 
 # クライアントから使用されるAPIを定義
 this.calc =
-  start: (ondecide, oncancel) ->
+  start: (ondecide, option = {oncancel:(event, value)->}) ->
     ondecide = ondecide or (event, value) ->
-    oncancel = oncancel or (event, value) ->
     calculator = new Calculator()
 
     cancelHandlers.add()
