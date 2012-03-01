@@ -1,5 +1,7 @@
 # Welcome to webCalc
 
+[![Build Status](https://secure.travis-ci.org/onjiro/webCalc.png)](http://travis-ci.org/onjiro/webCalc)
+
 webCalc is a calculator for mobile blowsers using html and javascript.
 
 ## How to build and test
